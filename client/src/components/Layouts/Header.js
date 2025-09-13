@@ -1,11 +1,118 @@
-import React from 'react'
+import React, { useState } from "react";
+import { Menu, X } from "lucide-react"; // hamburger aur close icon
+import '../../App.css';
+import './Header.css';
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-const Header = () => {
   return (
-    <div>
-      <h1>sahil kumar</h1>
-    </div>
-  )
-}
+    <nav id="navId"className="bg-white shadow-md fixed top-0 left-0 w-full z-50 shadow-lg fixed ">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        {/* Left side: Hamburger (mobile) + Logo */}
+        <div className="flex items-center space-x-3">
+          {/* Hamburger (Mobile Only) */}
+          <button
+            className="md:hidden text-gray-700"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
 
-export default Header
+          {/* Logo (Always visible) */}
+          <div className="flex items-center space-x-2  ">
+            <img
+              src="/images/main-logo.png"
+              alt="Logo"
+              className="max-h-16 w-auto brightness-75"
+            />
+            <h1 className="flex flex-col text-xl font-bold text-gray-700 leading-tight">
+            </h1>
+          </div>
+        </div>
+
+        {/* Desktop Nav Links */}
+        <ul className="hidden md:flex space-x-8 font-medium text-gray-700">
+          <li>
+            <a href="#about" className="hover:text-sky-600">
+              About
+            </a>
+          </li>
+          <li>
+            <a href="#conditions" className="hover:text-sky-600">
+              Treatments
+            </a>
+          </li>
+          <li>
+            <a href="#reviews" className="hover:text-sky-600">
+              Patients Review
+            </a>
+          </li>
+          <li>
+            <a href="#locations" className="hover:text-sky-600">
+              Locations
+            </a>
+          </li>
+        </ul>
+
+        {/* Contact Button (Always visible) */}
+        <div>
+          <a
+            href="tel:+91736707523"
+            className="bg-sky-600 text-white px-4 py-2 rounded-full hover:bg-sky-700 transition text-sm"
+          >
+            +91 736707523
+          </a>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden bg-white shadow-md">
+          <ul className="flex flex-col space-y-4 px-6 py-4 font-medium text-gray-700">
+            <li>
+              <a
+                href="#about"
+                className="hover:text-sky-600"
+                onClick={() => setIsOpen(false)}
+              >
+                About
+              </a>
+            </li>
+            <hr />
+            <li>
+              <a
+                href="#conditions"
+                className="hover:text-sky-600"
+                onClick={() => setIsOpen(false)}
+              >
+                Treatments
+              </a>
+            </li>
+            <hr />
+            <li>
+              <a
+                href="#reviews"
+                className="hover:text-sky-600"
+                onClick={() => setIsOpen(false)}
+              >
+                Patients Review
+              </a>
+            </li>
+            <hr />
+            <li>
+              <a
+                href="#locations"
+                className="hover:text-sky-600"
+                onClick={() => setIsOpen(false)}
+              >
+                Locations
+              </a>
+            </li>
+          </ul>
+        </div>
+      )}
+    </nav>
+  );
+};
+
+export default Navbar;
