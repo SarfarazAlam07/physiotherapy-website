@@ -1,11 +1,12 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaYoutube } from 'react-icons/fa';
 
 const Footer = () => {
   const FooterLink = ({ children }) => (
-    <a href="#" className="text-gray-500 hover:text-gray-900 transition-colors duration-300">
+    <Link to="#" className="text-gray-500 hover:text-gray-900 transition-colors duration-300">
       {children}
-    </a>
+    </Link>
   );
 
   return (
@@ -21,13 +22,14 @@ const Footer = () => {
             <div>
               <img src="./images/main-logo.png" alt="Mirani Logo" className="h-20 mb-6 brightness-75" />
               <div className="flex space-x-4">
-                <a href="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaFacebookF /></a>
-                <a href="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaTwitter /></a>
-                <a href="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaLinkedinIn /></a>
-                <a href="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaInstagram /></a>
-                <a href="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaYoutube /></a>
+                
+                <Link to="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaFacebookF /></Link>
+                <Link to="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaLinkedinIn /></Link>
+                <Link to="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaTwitter /></Link>
+                <Link to="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaInstagram /></Link>
+                <Link to="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaYoutube /></Link>
               </div>
-            </div>
+            </div>  
 
             {/* Quick Links section */}
             <div className="mt-12"> 

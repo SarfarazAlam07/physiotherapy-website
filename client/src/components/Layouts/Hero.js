@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { physiotherapyData } from '../Data';
 import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa"; // 1. Icons imported from react-icons
 
@@ -59,18 +60,17 @@ const PhysiotherapySection = () => {
 
       {/* Floating Icons */}
       <div className="fixed right-4 top-1/2 -translate-y-1/2 flex flex-col space-y-3 z-50">
-             <a href="tel:+916299687357" className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-colors">
+             <Link to="tel:+916299687357" className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-colors">
               <FaPhoneAlt className="w-6 h-6 text-white" />
-            </a>
-            <a 
-    href={`https://wa.me/+917091944667?text=Hello,%20I%20want%20to%20book%20an%20appointment`}
+            </Link>
+            <Link to={`https://wa.me/+917091944667?text=Hello,%20I%20want%20to%20book%20an%20appointment`}
     target="_blank" 
     rel="noopener noreferrer"
     className="bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-colors"
 >
               {/* 3. Using the new icon component */}
               <FaWhatsapp className="w-6 h-6 text-white" />
-            </a>
+            </Link>
       </div>
     </div>
   );

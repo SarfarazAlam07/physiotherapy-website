@@ -41,7 +41,7 @@ const Specializations = () => {
           <div
             key={card.id}
             className="bg-white border border-gray-200 rounded-xl p-6 w-full md:w-80 shadow-sm 
-                       hover:bg-blue-50 hover:shadow-lg transition-all duration-300"
+                       hover:bg-green-100 hover:shadow-lg transition-all duration-300"
           >
             <div className="mb-4">{card.icon}</div>
             <h3 className="text-xl font-semibold text-gray-800 mb-2">

@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Layouts from './components/Layouts/Layouts'
 import Navbar from './components/Layouts/Header'
 import PhysiotherapySection from './components/Layouts/Hero'
@@ -11,7 +12,7 @@ import PatientReviews from './components/Layouts/PatientReviews'
 const App = () => {
   return (
     <div className=''>
-      
+      <Router>
       <Navbar/>
       <Layouts/>
       <PhysiotherapySection/>
@@ -21,6 +22,7 @@ const App = () => {
       <BookAppointment/>
       <PatientReviews/>
       <Footer/>
+      </Router>
     </div>
   )
 }

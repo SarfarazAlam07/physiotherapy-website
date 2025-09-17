@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react"; // hamburger aur close icon
 import '../../App.css';
 import './Header.css';
@@ -33,35 +34,34 @@ const Navbar = () => {
         {/* Desktop Nav Links */}
         <ul className="hidden md:flex space-x-8 font-medium text-gray-700">
           <li>
-            <a href="#about" className="hover:text-sky-600">
+            <NavLink to="#about" className="hover:text-sky-600">
               About
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a href="#conditions" className="hover:text-sky-600">
+            <NavLink to="#conditions" className="hover:text-sky-600">
               Treatments
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a href="#reviews" className="hover:text-sky-600">
+            <NavLink to="#reviews" className="hover:text-sky-600">
               Patients Review
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a href="#locations" className="hover:text-sky-600">
+            <NavLink to="#locations" className="hover:text-sky-600">
               Locations
-            </a>
+            </NavLink>
           </li>
         </ul>
 
         {/* Contact Button (Always visible) */}
         <div>
-          <a
-            href="tel:+916299687357"
+          <NavLink to="tel:+916299687357"
             className="bg-green-500 text-white font-bold px-4 py-2 rounded-full hover:bg-sky-400 transition text-sm"
           >
             +91 62996 87357
-          </a>
+          </NavLink>
         </div>
       </div>
 
@@ -70,43 +70,39 @@ const Navbar = () => {
         <div className="md:hidden bg-white shadow-md">
           <ul className="flex flex-col space-y-4 px-6 py-4 font-medium text-gray-700">
             <li>
-              <a
-                href="#about"
+              <NavLink to="#about"
                 className="hover:text-sky-600"
                 onClick={() => setIsOpen(false)}
               >
                 About
-              </a>
+              </NavLink>
             </li>
             <hr />
             <li>
-              <a
-                href="#conditions"
+              <NavLink to="#conditions"
                 className="hover:text-sky-600"
                 onClick={() => setIsOpen(false)}
               >
                 Treatments
-              </a>
+              </NavLink>
             </li>
             <hr />
             <li>
-              <a
-                href="#reviews"
+              <NavLink to="#reviews"
                 className="hover:text-sky-600"
                 onClick={() => setIsOpen(false)}
               >
                 Patients Review
-              </a>
+              </NavLink>
             </li>
             <hr />
             <li>
-              <a
-                href="#locations"
+              <NavLink to="#locations"
                 className="hover:text-sky-600"
                 onClick={() => setIsOpen(false)}
               >
                 Locations
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>
