@@ -1,16 +1,33 @@
 import React, { useState, useEffect } from "react";
+import AppointmentForm from "./AppointmentForm";
 
 const BookAppointment = () => {
   const [showButton, setShowButton] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+    return () => document.body.classList.remove("no-scroll");
+  }, [isModalOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
+      // Assuming you have a footer with id="footer"
+      const footer = document.getElementById("footer");
+      const footerTop = footer?.getBoundingClientRect().top;
+
       if (window.scrollY > 50) {
-        // thoda scroll hote hi button show
-        setShowButton(true);
+        if (footerTop && footerTop <= window.innerHeight) {
+          setShowButton(false);
+        } else {
+          setShowButton(true);
+        }
       } else {
-        // upar aa jaye to hide
         setShowButton(false);
       }
     };
@@ -19,74 +36,67 @@ const BookAppointment = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const openModal = () => {
+    setShowButton(false);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    // You might want to delay this to avoid the button flashing
+    // For now, keeping it simple as per original code.
+    setShowButton(true);
+  };
+
+  const handleFormSubmit = (data) => {
+    console.log("Form submitted:", data);
+    alert("Appointment booked successfully!");
+    closeModal();
+  };
+
   return (
     <>
-      {/* Button - center bottom */}
-      {showButton && (
+      {/* Book Appointment Button */}
+      {showButton && !isModalOpen && (
         <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
           <button
-            onClick={() => setIsDrawerOpen(true)}
-            className="bg-blue-600 text-white px-10 py-4 text-lg font-semibold rounded-full shadow-lg hover:bg-blue-700 transition"
+            onClick={openModal}
+            // ✨ CORRECTED LINE BELOW
+            className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-4 text-base sm:px-6 sm:py-4 sm:text-lg font-semibold rounded-full shadow-xl hover:scale-105 transition transform"
           >
-            Book Appointment
+            Book an Appointment
           </button>
         </div>
       )}
 
-      {/* Right Drawer */}
-      <div
-        className={`fixed top-0 right-0 h-full w-96 bg-white shadow-2xl transform transition-transform duration-300 z-50 ${
-          isDrawerOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="p-6 relative h-full flex flex-col">
-          <h3 className="text-xl font-bold mb-4">Book Appointment</h3>
+      {/* Modal */}
+      {isModalOpen && (
+        <>
+          {/* Overlay */}
+          <div
+            onClick={closeModal}
+            className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity duration-300"
+          ></div>
 
-          <form className="space-y-4 flex-1 overflow-y-auto">
-            <input
-              type="text"
-              placeholder="Full Name"
-              className="w-full p-2 border rounded-md"
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full p-2 border rounded-md"
-            />
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              className="w-full p-2 border rounded-md"
-            />
-            <textarea
-              placeholder="Your Message"
-              className="w-full p-2 border rounded-md"
-            ></textarea>
+          {/* Centered Form */}
+          <div className="fixed inset-0 flex items-start justify-center z-50 px-4 pt-30 sm:pt-24">
+            <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 sm:p-8 relative transition-transform transform scale-100">
+              <h3 className="text-2xl font-bold mb-6 text-gray-800">
+                Book an Appointment
+              </h3>
 
-            <button
-              type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
-            >
-              Submit
-            </button>
-          </form>
+              <AppointmentForm onSubmit={handleFormSubmit} />
 
-          {/* Close Button */}
-          <button
-            onClick={() => setIsDrawerOpen(false)}
-            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-          >
-            ✕
-          </button>
-        </div>
-      </div>
-
-      {/* Overlay */}
-      {isDrawerOpen && (
-        <div
-          onClick={() => setIsDrawerOpen(false)}
-          className="fixed inset-0 bg-black bg-opacity-40 z-40"
-        ></div>
+              {/* Close Button */}
+              <button
+                onClick={closeModal}
+                className="absolute top-4 right-4 sm:top-5 sm:right-5 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        </>
       )}
     </>
   );

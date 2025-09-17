@@ -57,10 +57,10 @@ const Navbar = () => {
         {/* Contact Button (Always visible) */}
         <div>
           <a
-            href="tel:+91736707523"
-            className="bg-sky-600 text-white px-4 py-2 rounded-full hover:bg-sky-700 transition text-sm"
+            href="tel:+916299687357"
+            className="bg-green-500 text-white font-bold px-4 py-2 rounded-full hover:bg-sky-400 transition text-sm"
           >
-            +91 736707523
+            +91 62996 87357
           </a>
         </div>
       </div>
