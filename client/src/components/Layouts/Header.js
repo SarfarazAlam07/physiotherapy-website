@@ -3,6 +3,10 @@ import { NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react"; // hamburger aur close icon
 import '../../App.css';
 import './Header.css';
+
+
+
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -21,11 +25,11 @@ const Navbar = () => {
 
           {/* Logo (Always visible) */}
           <div className="flex items-center space-x-2  ">
-            <img
+            <NavLink to='/'><img
               src="/images/main-logo.png"
               alt="Logo"
               className="max-h-16 w-auto brightness-75"
-            />
+            /></NavLink>
             <h1 className="flex flex-col text-xl font-bold text-gray-700 leading-tight">
             </h1>
           </div>
@@ -34,22 +38,22 @@ const Navbar = () => {
         {/* Desktop Nav Links */}
         <ul className="hidden md:flex space-x-8 font-medium text-gray-700">
           <li>
-            <NavLink to="#about" className="hover:text-sky-600">
+            <NavLink to='/About' className="hover:text-sky-600">
               About
             </NavLink>
           </li>
           <li>
-            <NavLink to="#conditions" className="hover:text-sky-600">
+            <NavLink to='/OrthopedicConditions' className="hover:text-sky-600">
               Treatments
             </NavLink>
           </li>
           <li>
-            <NavLink to="#reviews" className="hover:text-sky-600">
+            <NavLink to='/patientreview' className="hover:text-sky-600">
               Patients Review
             </NavLink>
           </li>
           <li>
-            <NavLink to="#locations" className="hover:text-sky-600">
+            <NavLink to='/Location' className="hover:text-sky-600">
               Locations
             </NavLink>
           </li>
@@ -70,7 +74,7 @@ const Navbar = () => {
         <div className="md:hidden bg-white shadow-md">
           <ul className="flex flex-col space-y-4 px-6 py-4 font-medium text-gray-700">
             <li>
-              <NavLink to="#about"
+              <NavLink to='/About'
                 className="hover:text-sky-600"
                 onClick={() => setIsOpen(false)}
               >
@@ -88,7 +92,7 @@ const Navbar = () => {
             </li>
             <hr />
             <li>
-              <NavLink to="#reviews"
+              <NavLink to='/PatientReviewPage'
                 className="hover:text-sky-600"
                 onClick={() => setIsOpen(false)}
               >
@@ -97,7 +101,7 @@ const Navbar = () => {
             </li>
             <hr />
             <li>
-              <NavLink to="#locations"
+              <NavLink to='/Location'
                 className="hover:text-sky-600"
                 onClick={() => setIsOpen(false)}
               >

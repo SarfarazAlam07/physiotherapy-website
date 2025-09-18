@@ -23,7 +23,7 @@ const Footer = () => {
               <img src="./images/main-logo.png" alt="Mirani Logo" className="h-20 mb-6 brightness-75" />
               <div className="flex space-x-4">
                 
-                <Link to="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaFacebookF /></Link>
+                <Link to="../Pages/about.js" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaFacebookF /></Link>
                 <Link to="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaLinkedinIn /></Link>
                 <Link to="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaTwitter /></Link>
                 <Link to="#" className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors"><FaInstagram /></Link>

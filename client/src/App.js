@@ -1,27 +1,21 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Layouts from './components/Layouts/Layouts'
-import Navbar from './components/Layouts/Header'
-import PhysiotherapySection from './components/Layouts/Hero'
-import ScrollableSection from './components/Layouts/scroll'
-import Specializations from './components/Layouts/Specializations'
-import QualityService from './components/Layouts/QualityService'
-import Footer from './components/Layouts/Footer'
-import BookAppointment from './components/Layouts/Book'
-import PatientReviews from './components/Layouts/PatientReviews'
+import About from './Pages/About/About'
+import Location from './Pages/Location/LocationPage'
+import PatientReview from './Pages/PatientReview/PatientReviewPage'
+import OrthopedicConditions from './components/OrthopedicConditions'
 const App = () => {
   return (
     <div className=''>
       <Router>
-      <Navbar/>
-      <Layouts/>
-      <PhysiotherapySection/>
-      <ScrollableSection/>
-      <Specializations/>
-      <QualityService/>
-      <BookAppointment/>
-      <PatientReviews/>
-      <Footer/>
+        <Routes>
+          <Route path="/" element={<Layouts />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/location" element={<Location />} />
+          <Route path="/patientreview" element={<PatientReview />} />
+          <Route path="/OrthopedicConditions" element={<OrthopedicConditions />} />
+        </Routes>
       </Router>
     </div>
   )
