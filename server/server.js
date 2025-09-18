@@ -1,21 +1,37 @@
-const express  = require('express')
-const cors = require('cors')
-const dotenv = require('dotenv')
-dotenv.config()
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+require("colors");
+
+
+// Routes import
+const serviceRoutes = require('./src/routes/ServiceRouter');
+
+dotenv.config();
+const connectDB = require("./src/config/db");
 
 const app = express();
-const PORT = process.env.PORT || 4040
+
 
 // Middleware
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
-app.get('/', (req , res )=>{
-    res.send('Hello World!')
-})
+// DB Connection
+connectDB();
+
+// Use Routes
+app.use("/api/services", serviceRoutes);
 
 
+// Routes
+app.get("/", (req, res) => {
+  res.send("🚀 Server running & DB connected!");
+});
 
+// Start server
+const PORT = process.env.PORT || 4040;
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`)
-})
+  console.log(`✅ Server listening on port ${PORT}`.bgCyan.white);
+  console.log(`http://localhost:${PORT}`);
+});
