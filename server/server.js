@@ -33,5 +33,5 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 4040;
 app.listen(PORT, () => {
   console.log(`✅ Server listening on port ${PORT}`.bgCyan.white);
-  console.log(`http://localhost:${PORT}`);
+  console.log(`http://localhost:${PORT}`.bgWhite.black);
 });
