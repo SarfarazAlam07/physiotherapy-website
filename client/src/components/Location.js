@@ -1,86 +1,140 @@
-import React from 'react';
-// We'll use the map marker icon from react-icons
+import React, { useState, useRef } from 'react';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 
-// ✨ IMPORTANT: Update this path to your actual map image
 const mapImageUrl = '/images/map.jpg';
 
-// Data for our locations. You can easily add more here!
-// The positions are percentages (top, left, right) to work on different screen sizes.
 const locations = [
   {
     id: 1,
-    city: 'Patna',
-    address: 'Mirani Physiotherapy center\nKankarbag patna - 800020',
-    pinPosition: { top: '22%', left: '56%' },
-    cardPosition: { top: '15%', right: '5%' },
+    city: 'Gaya',
+    address: 'Mirani Physiotherapy center, White House Colony, Gaya - 823001',
+    pinPosition: { top: '69.4%', left: '43.3%' },
   },
   {
     id: 2,
-    city: 'Jahanabad',
-    address: 'Mirani Physiotherapy center\nKankarbag patna - 804408',
-    pinPosition: { top: '50%', left: '42%' },
-    cardPosition: { top: '40%', left: '5%' },
+    city: 'Patna',
+    address: 'Mirani Physiotherapy center, Kankarbagh, Patna - 800020',
+    pinPosition: { top: '15.5%', left: '47.8%' },
   },
   {
     id: 3,
-    city: 'Gaya',
-    address: 'Mirani Physiotherapy center\nWhite House Colony Gaya - 823001',
-    pinPosition: { top: '68%', left: '49%' },
-    cardPosition: { top: '60%', right: '10%' },
+    city: 'Jahanabad',
+    address: 'Chiksi, Himalaya Medical College, Jehanabad, Bihar',
+    pinPosition: { top: '40.8%', left: '42.8%' },
   },
 ];
 
 const LocationsSection = () => {
+  const [hoveredLocationId, setHoveredLocationId] = useState(null);
+  // ✅ Step 1: Create a ref to hold the timer
+  const timeoutRef = useRef(null);
+
+  // ✅ Step 2: Create handler functions with a delay
+  const handleMouseEnter = (id) => {
+    clearTimeout(timeoutRef.current); // Cancel any pending hide timer
+    setHoveredLocationId(id);
+  };
+
+  const handleMouseLeave = () => {
+    // Start a timer to hide the card after 300ms
+    timeoutRef.current = setTimeout(() => {
+      setHoveredLocationId(null);
+    }, 300);
+  };
+
   return (
     <div className="bg-gray-100 py-12 sm:py-16 px-4">
-      {/* Section Header */}
-      <div className="text-center mb-10">
+      <div className="text-center mb-5">
         <div className="inline-block bg-slate-700 text-white py-3 px-8 rounded-lg shadow-md">
           <h2 className="text-3xl font-bold">Our Locations</h2>
-          <p className="text-md text-gray-200">Where we are</p>
+          <p className="text-md text-gray-200">We Are Available Here</p>
         </div>
       </div>
 
-      {/* Map Container */}
-      <div
-        className="max-w-6xl mx-auto h-[450px] sm:h-[600px] rounded-2xl shadow-2xl relative overflow-hidden border-4 border-white"
-        style={{
-          backgroundImage: `url(${mapImageUrl})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        {/* We map over the locations array to create the pins and cards */}
-        {locations.map((loc) => (
-          <React.Fragment key={loc.id}>
+      <div className="hidden md:block">
+        <div
+          className="max-w-6xl mx-auto rounded-2xl shadow-2xl relative overflow-hidden border-4 border-white"
+          style={{
+            backgroundImage: `url(${mapImageUrl})`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            aspectRatio: '1120 / 600',
+            maxHeight: '68vh',
+          }}
+        >
+          {locations.map((loc, index) => {
+            const googleMapsUrl = `http://googleusercontent.com/maps/google.com/2${encodeURIComponent(loc.address)}`;
             
-            {/* The Red Pin */}
-            <div
-              className="absolute transform -translate-x-1/2 -translate-y-1/2 z-10"
-              style={{ top: loc.pinPosition.top, left: loc.pinPosition.left }}
-            >
-              <FaMapMarkerAlt className="text-red-600 text-4xl drop-shadow-lg" />
-            </div>
+            const isVisible = hoveredLocationId === loc.id;
+            const isRightSide = index % 2 !== 0; 
+
+            const transformStyle = isRightSide
+              ? `translateX(2rem) translateY(-80%)` 
+              : `translateX(calc(-100% - 2rem)) translateY(-80%)`;
             
-            {/* The Info Card */}
-            <div
-              className="absolute w-60 sm:w-64 p-4 rounded-xl shadow-lg bg-slate-800/70 backdrop-blur-sm text-white"
-              style={{ 
-                top: loc.cardPosition.top, 
-                left: loc.cardPosition.left,
-                right: loc.cardPosition.right 
-              }}
-            >
-              <div className="flex items-center mb-2">
-                <FaMapMarkerAlt className="text-lg mr-2" />
-                <h3 className="font-bold text-xl">{loc.city}</h3>
+            return (
+              // ✅ Step 3: Use the new handlers on the main wrapper div
+              <div
+                key={loc.id}
+                className="absolute"
+                style={{ top: loc.pinPosition.top, left: loc.pinPosition.left }}
+                onMouseEnter={() => handleMouseEnter(loc.id)}
+                onMouseLeave={handleMouseLeave}
+              >
+                {/* Pin without Label */}
+                <div className="relative z-20 cursor-pointer group flex flex-col items-center" style={{ transform: 'translate(-50%, -100%)' }}>
+                  <FaMapMarkerAlt className="text-red-600 text-3xl drop-shadow-lg mx-auto transition-transform duration-300 group-hover:scale-125" />
+                </div>
+                
+                {/* Info Card */}
+                <a
+                  href={googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute top-1/1 z-30 w-64 p-4 rounded-xl shadow-2xl bg-slate-800/90 backdrop-blur-sm text-white transition-all duration-300 ease-in-out"
+                  style={{
+                    transform: isVisible ? transformStyle : `${transformStyle} scale(0.95)`,
+                    opacity: isVisible ? 1 : 0,
+                    pointerEvents: isVisible ? 'auto' : 'none',
+                  }}
+                >
+                  <div className="flex items-center mb-2">
+                    <FaMapMarkerAlt className="text-lg mr-2 text-gray-300" />
+                    <h3 className="font-bold text-xl text-white">{loc.city}</h3>
+                  </div>
+                  <p className="text-gray-200 text-sm">{loc.address}</p>
+                </a>
               </div>
-              {/* whitespace-pre-line makes the '\n' in the address string work */}
-              <p className="text-gray-200 whitespace-pre-line text-sm">{loc.address}</p>
-            </div>
-          </React.Fragment>
-        ))}
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Mobile view remains unchanged */}
+      <div className="block md:hidden">
+        <div className="max-w-md mx-auto space-y-6">
+          {locations.map((loc) => {
+            const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc.address)}`;
+            return (
+              <a
+                key={loc.id}
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block bg-white rounded-xl shadow-lg p-6 border border-gray-200"
+              >
+                <div className="flex items-center mb-3">
+                  <FaMapMarkerAlt className="text-xl mr-3 text-slate-600" />
+                  <h3 className="font-bold text-2xl text-slate-800">{loc.city}</h3>
+                </div>
+                <p className="text-gray-600 text-base ml-2 pl-6 border-l-2 border-gray-200">
+                  {loc.address}
+                </p>
+              </a>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
