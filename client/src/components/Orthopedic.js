@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   ChevronDown,
   ChevronRight,
@@ -10,13 +9,10 @@ import {
   Users,
   Baby,
   Dumbbell,
-  
-  
 } from "lucide-react";
 import { FaRunning } from "react-icons/fa";
 import { SiSpine } from "react-icons/si";
 
-// Data can be defined outside the component since it doesn't change.
 const conditionsData = [
   // ... your data remains unchanged
   {
@@ -63,7 +59,6 @@ const conditionsData = [
       "Muscle Strain",
       "Muscle Tear",
       "Tennis Elbow",
-      
     ],
   },
   {
@@ -362,7 +357,8 @@ const OrthopedicSection = () => {
   const column2Data = conditionsData.filter((_, index) => index % 2 !== 0);
 
   return (
-    <div className="w-full p-6 bg-gray-50 min-h-screen">
+    // ✅ 'min-h-screen' has been removed from here
+    <div className="w-full p-6 bg-gray-50">
       <div className="text-center mb-8 pt-8">
         <span className="inline-block bg-blue-100 text-blue-800 px-6 py-2 rounded-full font-semibold text-lg">
           All Conditions
@@ -395,8 +391,6 @@ const OrthopedicSection = () => {
           ))}
         </div>
       </div>
-
-      {/* The "Need Help with Your Condition?" section has been removed. */}
     </div>
   );
 };
