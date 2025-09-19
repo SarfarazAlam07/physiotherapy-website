@@ -59,7 +59,7 @@ const reviewsData = [
       bgColor: 'bg-purple-100',
       textColor: 'text-purple-800',
     },
-    reviewText: "I had been suffering from chronic back pain for years. The team at ReLiva not only helped with the pain but also taught me exercises to prevent it in the future. Their approach is holistic and very effective. Highly recommended for anyone looking for long-term relief.",
+    reviewText: "I had been suffering from chronic back pain for years. The team at Mirani not only helped with the pain but also taught me exercises to prevent it in the future. Their approach is holistic and very effective. Highly recommended for anyone looking for long-term relief.",
   },
   // ... बाकी रिव्यूज
 ];

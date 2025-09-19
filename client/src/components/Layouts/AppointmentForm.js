@@ -55,8 +55,8 @@ const AppointmentForm = ({ onSubmit }) => {
       return;
     }
     onSubmit(form);
-    setForm({ name: "", email: "", phone: "", message: "" });
-    setErrors({ name: "", email: "", phone: "", message: "" });
+    setForm({ name: "", email: "", phone: "", message: "", address: ""});
+    setErrors({ name: "", email: "", phone: "", message: "", address: "" });
   };
 
   return (
@@ -70,6 +70,7 @@ const AppointmentForm = ({ onSubmit }) => {
         { name: "name", label: "Full Name", type: "text" },
         { name: "email", label: "Email", type: "email" },
         { name: "phone", label: "Phone Number", type: "tel", maxLength: 10 },
+        { name: "address", label: "address", type: "text", maxLength: 50 },
       ].map((field) => (
         <div key={field.name} className="relative">
           <input
@@ -110,7 +111,7 @@ const AppointmentForm = ({ onSubmit }) => {
           htmlFor="message" 
           className={`absolute left-4 top-4 text-gray-400 transition-opacity duration-300 ${form.message ? 'opacity-0' : 'opacity-100 text-base'}`}
         >
-          Your Message
+          Problem
         </label>
         {errors.message && (
           <p className="text-red-500 text-xs mt-1">{errors.message}</p>
