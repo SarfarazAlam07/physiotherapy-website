@@ -6,7 +6,7 @@ import About from './Pages/About/About'
 import Location from './Pages/Location/LocationPage'
 import PatientReview from './Pages/PatientReview/PatientReviewPage'
 import { OrthopedicPage } from './Pages/Orthopedic/OrthopedicPage'
-// import { PageNotFound } from './Pages/PageNotFound/PageNotFound'
+import NotFoundPage from './Pages/PageNotFound/PageNotFound'
 const App = () => {
   return (
       <BrowserRouter>
@@ -17,7 +17,7 @@ const App = () => {
           <Route path="/location" element={<Location />} />
           <Route path="/patientreview" element={<PatientReview />} />
           <Route path="/Orthopedic" element={<OrthopedicPage />} />
-          {/* <Route path="*" element={<PageNotFound />} /> */}
+          <Route path="*" element={<NotFoundPage />} /> 
         </Routes>
     
       </BrowserRouter>

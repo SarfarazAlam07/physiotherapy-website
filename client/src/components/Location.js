@@ -64,7 +64,7 @@ const LocationsSection = () => {
           }}
         >
           {locations.map((loc, index) => {
-            const googleMapsUrl = `http://googleusercontent.com/maps/google.com/2${encodeURIComponent(loc.address)}`;
+            const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc.address)}`;
             
             const isVisible = hoveredLocationId === loc.id;
             const isRightSide = index % 2 !== 0; 
