@@ -5,7 +5,13 @@ const ScrollableSection = ({ cardsData = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showDetail, setShowDetail] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-
+   const truncateWords = (text, wordLimit) => {
+    const words = text.split(" ");
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(" ") + " ...";
+    }
+    return text;
+  };
   const defaultCardsData = [
     {
       id: 1,
@@ -242,8 +248,8 @@ const ScrollableSection = ({ cardsData = [] }) => {
                       </div>
                       {isActive && (
                         <>
-                          <p className="text-gray-300 text-sm mb-3 leading-relaxed">
-                            {card.description}
+                          <p className="text-gray-300 text-sm mb-2 leading-relaxed">
+                             {truncateWords(card.description, 13)}
                           </p>
                           <div className="flex justify-center mt-auto mb-2">
                             <button
