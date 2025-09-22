@@ -6,7 +6,6 @@ import Specializations from './Specializations'
 import QualityService from './QualityService'
 import BookAppointment from './Book'
 import PatientReviews from './PatientReviews'
-import ConditionsSection  from '../Condition'
 import Footer from './Footer'
 
 const Layouts = () => {
@@ -20,7 +19,6 @@ const Layouts = () => {
       <QualityService/>
       <BookAppointment/>
       <PatientReviews/>
-      <ConditionsSection/>
       <Footer/>
     </div>
   )

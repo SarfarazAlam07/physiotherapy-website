@@ -49,12 +49,12 @@ const AboutHeaders = ({ data }) => {
 // Example usage with sample data
 const sampleData = {
   image: "./images/doctor.jpg",
-  heading: "ReLiva",
+  heading: "Md Aamash Mirani",
   paragraph:
-    "ReLiva Physiotherapy is a physiotherapy specialist with a wide network of physiotherapy clinics, outsourced physiotherapy for hospitals and home visit physios.",
+    "Mirani Physiotherapy is a physiotherapy specialist with a wide network of physiotherapy clinics, outsourced physiotherapy for hospitals and home visit physios.",
   features: [
     "Team of Expert Physiotherapist",
-    "ISO 9001:2008 certified",
+    "ISO certified",
     "Unique approach to recovery",
     "Full Spectrum: Clinic & Hospital, Home, Online",
     "Advanced techniques and robotics",
