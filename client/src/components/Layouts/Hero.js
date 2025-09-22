@@ -1,13 +1,30 @@
-import React from 'react';
+import React,{useState,useEffect}from 'react';
 import { Link } from 'react-router-dom';
 import { physiotherapyData } from '../Data';
 import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa"; // 1. Icons imported from react-icons
-
+   
 // 2. Old PhoneIcon and WhatsAppIcon components are removed.
 
 const PhysiotherapySection = () => {
-  const { mainTitle, description, specialist, mainImage } = physiotherapyData;
+  const [doctorData, setDoctorData] = useState(null);
+  useEffect(()=>{
+    // Backend se data fetch karna 
+    fetch("http://localhost:4040/api/doctors")
+    .then(res=>res.json())
+    .then((data)=>{
+      if(data.length > 0) {
+        setDoctorData(data[0]);
+      } // Assuming we want the first doctor's data
+    }).catch(err=>console.log(err));
+  })
 
+
+  // ager abhi tak load nahi hua 
+  if(!doctorData) {
+    return <div>Loading...</div>;
+  }
+
+  const { mainTitle, description, specialist, mainImage } = doctorData;
   return (
     <div className="bg-gray-50 font-sans px-8 pb-8 pt-24 md:px-16 md:pb-16 md:pt-32">
       <div className="max-w-7xl mx-auto space-y-16">
@@ -26,7 +43,7 @@ const PhysiotherapySection = () => {
             <img 
               src={mainImage} 
               alt="Physiotherapy session" 
-              className="rounded-3xl shadow-lg w-full max-w-md object-cover object-top"
+              className="rounded-3xl shadow-lg w-full max-w-md  object-cover object-top"
             />
           </div>
         </div>

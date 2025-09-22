@@ -10,7 +10,7 @@ const ScrollableSection = ({ cardsData = [] }) => {
     {
       id: 1,
       image:
-        "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=400&fit=crop",
+        "https://res.cloudinary.com/dfypswbiz/image/upload/v1758177099/abc1_bjvpd9.jpg",
       title: "Posture & Ergonomics",
       topic: "Physiotherapy",
       description:
