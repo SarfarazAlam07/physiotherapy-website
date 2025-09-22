@@ -1,23 +1,27 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, } from 'react-router-dom'
+import ScrollToTop from './components/ScrollTop'
 import Layouts from './components/Layouts/Layouts'
 import About from './Pages/About/About'
 import Location from './Pages/Location/LocationPage'
 import PatientReview from './Pages/PatientReview/PatientReviewPage'
-import OrthopedicConditions from './components/OrthopedicConditions'
+import { OrthopedicPage } from './Pages/Orthopedic/OrthopedicPage'
+import NotFoundPage from './Pages/PageNotFound/PageNotFound'
 const App = () => {
   return (
-    <div className=''>
-      <Router>
+      <BrowserRouter>
+      <ScrollToTop/>
         <Routes>
           <Route path="/" element={<Layouts />} />
           <Route path="/about" element={<About />} />
           <Route path="/location" element={<Location />} />
           <Route path="/patientreview" element={<PatientReview />} />
-          <Route path="/OrthopedicConditions" element={<OrthopedicConditions />} />
+          <Route path="/Orthopedic" element={<OrthopedicPage />} />
+          <Route path="*" element={<NotFoundPage />} /> 
         </Routes>
-      </Router>
-    </div>
+    
+      </BrowserRouter>
+    
   )
 }
 

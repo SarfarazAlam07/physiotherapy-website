@@ -4,7 +4,7 @@ import LocationsSection from '../../components/Location'
 import Footer from '../../components/Layouts/Footer'
 const LocationPage = () => {
   return (
-    <div className='flex flex-col mt-16'>
+    <div className='flex flex-col mt-12'>
         <Navbar/>
         <LocationsSection/>
         <Footer/>

@@ -43,8 +43,6 @@ const BookAppointment = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    // You might want to delay this to avoid the button flashing
-    // For now, keeping it simple as per original code.
     setShowButton(true);
   };
 
@@ -61,8 +59,8 @@ const BookAppointment = () => {
         <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
           <button
             onClick={openModal}
-            // ✨ CORRECTED LINE BELOW
-            className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-4 text-base sm:px-6 sm:py-4 sm:text-lg font-semibold rounded-full shadow-xl hover:scale-105 transition transform"
+            // ✅ This line has been updated for better mobile styling
+            className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-2 text-sm sm:px-8 sm:py-3 font-semibold rounded-full shadow-xl hover:scale-105 transition transform"
           >
             Book an Appointment
           </button>

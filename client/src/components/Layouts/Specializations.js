@@ -9,7 +9,7 @@ const Specializations = () => {
     {
       id: 1,
       title: "Physiotherapy Near Me",
-      desc: "Go for result-oriented physiotherapy at a fully-equipped ReLiva physiotherapy clinic nearby in your own locality.",
+      desc: "Go for result-oriented physiotherapy at a fully-equipped Mirani physiotherapy clinic nearby in your own locality.",
       icon: <MapPin className="w-10 h-10 text-blue-600" />,
     },
     {
