@@ -1,5 +1,4 @@
-// QualityService.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 
 const features = [
   {
@@ -24,23 +23,31 @@ const features = [
   },
 ];
 
-const stats = [
-  { id: 1, value: 1000, label: "Happy Patients" },
-  { id: 2, value: 5, label: "Experience" },
-  { id: 3, value: 3, label: "Cities" },
-];
-
 const QualityService = () => {
-  const [counts, setCounts] = useState(stats.map(() => 0));
+  const [statsData, setStatsData] = useState([]);
+  const [counts, setCounts] = useState([]);
+  const hasAnimated = useRef(false); // <-- Badlav 1: Flag banaya
 
-  const startCounting = () => {
-    stats.forEach((stat, index) => {
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/stats`);
+        const data = await res.json();
+        setStatsData(data);
+        setCounts(data.map(() => 0));
+      } catch (err) {
+        console.error("Error fetching stats:", err);
+      }
+    };
+    fetchStats();
+  }, []);
+
+  const startCounting = useCallback(() => {
+    statsData.forEach((stat, index) => {
       let start = 0;
       const end = stat.value;
-      const duration = 1500; // 1.5 sec animation
-      const stepTime = 20;   // update every 20ms
-
-      // step calculate (minimum 1 rakha)
+      const duration = 1500;
+      const stepTime = 20;
       const increment = Math.max(1, Math.ceil(end / (duration / stepTime)));
 
       const timer = setInterval(() => {
@@ -56,25 +63,30 @@ const QualityService = () => {
         });
       }, stepTime);
     });
-  };
+  }, [statsData]);
 
+  // <-- Badlav 2: IntersectionObserver ke logic ko update kiya
   useEffect(() => {
     const section = document.getElementById("quality-service");
+    if (!section || statsData.length === 0) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          startCounting(); // enter → start counting
-        } else {
-          setCounts(stats.map(() => 0)); // exit → reset
+        if (entries[0].isIntersecting && !hasAnimated.current) {
+          startCounting();
+          hasAnimated.current = true; // Animation ko dobara chalne se roka
+          observer.unobserve(section); // Observer ko hata diya
         }
       },
       { threshold: 0.3 }
     );
 
-    if (section) observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
+    observer.observe(section);
+    
+    return () => {
+      if(section) observer.unobserve(section);
+    }
+  }, [startCounting, statsData]);
 
   return (
     <section
@@ -109,10 +121,10 @@ const QualityService = () => {
 
           {/* Stats */}
           <div className="grid grid-cols-2 gap-6 text-center">
-            {stats.map((stat, idx) => (
-              <div key={stat.id}>
+            {statsData.map((stat, idx) => (
+              <div key={stat._id || stat.id}>
                 <h4 className="text-3xl font-bold">
-                  {counts[idx].toLocaleString()}+
+                  {(counts[idx] || 0).toLocaleString()}+
                 </h4>
                 <p className="text-gray-200">{stat.label}</p>
               </div>

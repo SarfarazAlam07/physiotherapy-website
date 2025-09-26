@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const AppointmentForm = ({ onSubmit }) => {
   const [form, setForm] = useState({
@@ -52,19 +54,34 @@ const AppointmentForm = ({ onSubmit }) => {
     setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const hasError =
-      Object.values(errors).some((err) => err !== "") ||
-      Object.values(form).some((val) => val === "");
-    if (hasError) {
-      alert("Please fix errors before submitting!");
-      return;
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const hasError =
+    Object.values(errors).some((err) => err !== "") ||
+    Object.values(form).some((val) => val === "");
+
+  if (hasError) {
+    toast.error("❌ Please fix errors before submitting!");
+    return;
+  }
+
+  try {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/appointment`, form);
+
+    if (res.data.success) {
+      toast.success("✅ Appointment request sent!");
+      setForm({ name: "", email: "", phone: "", message: "", address: "" });
+      setErrors({ name: "", email: "", phone: "", message: "", address: "" });
+      // yaha tum modal close ka code bhi call kar sakte ho
+    } else {
+      toast.error("❌ " + res.data.msg);
     }
-    onSubmit(form);
-    setForm({ name: "", email: "", phone: "", message: "", address: ""});
-    setErrors({ name: "", email: "", phone: "", message: "", address: "" });
-  };
+  } catch (err) {
+    toast.error("❌ Server error, please try again");
+  }
+  
+};
+
 
   return (
     // ✅ max-h-[60vh] and pr-2 have been added here

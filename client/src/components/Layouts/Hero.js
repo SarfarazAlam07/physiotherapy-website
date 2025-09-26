@@ -1,6 +1,5 @@
 import React,{useState,useEffect}from 'react';
 import { Link } from 'react-router-dom';
-import { physiotherapyData } from '../Data';
 import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa"; // 1. Icons imported from react-icons
    
 // 2. Old PhoneIcon and WhatsAppIcon components are removed.
@@ -9,7 +8,7 @@ const PhysiotherapySection = () => {
   const [doctorData, setDoctorData] = useState(null);
   useEffect(()=>{
     // Backend se data fetch karna 
-    fetch("http://localhost:4040/api/doctors")
+    fetch(`${process.env.REACT_APP_API_URL}doctors`)
     .then(res=>res.json())
     .then((data)=>{
       if(data.length > 0) {

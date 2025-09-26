@@ -2,122 +2,30 @@ import React, { useState, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
 
 const ScrollableSection = ({ cardsData = [] }) => {
+  const [serviceData, setServicesData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showDetail, setShowDetail] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const defaultCardsData = [
-    {
-      id: 1,
-      image:
-        "https://res.cloudinary.com/dfypswbiz/image/upload/v1758177099/abc1_bjvpd9.jpg",
-      title: "Posture & Ergonomics",
-      topic: "Physiotherapy",
-      description:
-        "Specialized treatment addressing neck pain, back pain, and repetitive strain injuries caused by poor posture.",
-      fullDescription:
-        "Posture & Ergonomics physiotherapy focuses on correcting postural imbalances and improving workplace ergonomics. Our specialized treatment addresses neck pain, back pain, and repetitive strain injuries caused by poor posture. We provide comprehensive assessments to identify postural problems and develop personalized treatment plans.",
-      specs: {
-        "Session Time": "45 mins",
-        Equipment: "Advanced",
-        Approach: "Holistic",
-        "Follow-up": "Weekly",
-        Results: "Proven",
-      },
-    },
-    {
-      id: 2,
-      image:
-        "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=400&fit=crop",
-      title: "Women's Health",
-      topic: "Physiotherapy",
-      description:
-        "Specialized care for women throughout their lives, addressing pelvic floor dysfunction and pregnancy-related pain.",
-      fullDescription:
-        "Women's Health Physiotherapy specializes in treating conditions unique to women throughout their lives. We address pelvic floor dysfunction, pregnancy-related pain, postpartum recovery, and menopausal changes. Our certified women's health physiotherapists provide confidential and compassionate care.",
-      specs: {
-        "Session Time": "50 mins",
-        Expertise: "Certified",
-        Privacy: "Assured",
-        Programs: "Custom",
-        Care: "Holistic",
-      },
-    },
-    {
-      id: 3,
-      image:
-        "https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=400&h=400&fit=crop",
-      title: "Post Operative",
-      topic: "Recovery",
-      description:
-        "Safe and effective recovery programs after surgery, focusing on pain management and restoring mobility.",
-      fullDescription:
-        "Post Operative Physiotherapy helps patients recover safely and effectively after surgery. Our specialized programs are designed for various surgical procedures including orthopedic, cardiac, and neurological surgeries. We focus on pain management, wound healing, and restoring mobility.",
-      specs: {
-        Recovery: "Fast",
-        Monitoring: "24/7",
-        Techniques: "Modern",
-        Support: "Complete",
-        Outcomes: "Superior",
-      },
-    },
-    {
-      id: 4,
-      image:
-        "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=400&fit=crop",
-      title: "Neurological",
-      topic: "Therapy",
-      description:
-        "Specialized treatment for nervous system conditions including stroke and spinal cord injuries.",
-      fullDescription:
-        "Neurological Physiotherapy specializes in treating patients with conditions affecting the nervous system. We work with individuals who have experienced stroke, spinal cord injuries, multiple sclerosis, Parkinson's disease, and other neurological conditions.",
-      specs: {
-        Expertise: "Advanced",
-        Technology: "Latest",
-        Recovery: "Optimal",
-        Support: "Family",
-        Results: "Proven",
-      },
-    },
-    {
-      id: 5,
-      image:
-        "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop",
-      title: "Paediatric",
-      topic: "Care",
-      description:
-        "Child-friendly physiotherapy for infants, children, and adolescents with developmental conditions.",
-      fullDescription:
-        "Paediatric Physiotherapy provides specialized care for infants, children, and adolescents with developmental, neurological, or orthopedic conditions. We treat conditions such as cerebral palsy, developmental delays, sports injuries, and congenital disorders.",
-      specs: {
-        "Age Group": "0-18 yrs",
-        Approach: "Play-based",
-        Environment: "Friendly",
-        Programs: "Custom",
-        Support: "Family",
-      },
-    },
-    {
-      id: 6,
-      image:
-        "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=400&fit=crop",
-      title: "Sports Medicine",
-      topic: "Rehabilitation",
-      description:
-        "Athletic injury prevention and rehabilitation programs for sports professionals and fitness enthusiasts.",
-      fullDescription:
-        "Sports Medicine Physiotherapy focuses on preventing and treating sports-related injuries. We work with athletes at all levels to optimize performance, prevent injuries, and facilitate safe return to sport after injury.",
-      specs: {
-        Athletes: "All levels",
-        Prevention: "Priority",
-        Recovery: "Rapid",
-        Performance: "Enhanced",
-        Experience: "Expert",
-      },
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/services`);
+        const data = await res.json();
+        setServicesData(data);
+      } catch (err) {
+        console.error("API fetch failed:", err);
+        setServicesData([]); // Agar fail ho to khali array set karein
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const finalCardsData = cardsData.length > 0 ? cardsData : defaultCardsData;
+    fetchData();
+  }, []);
+
+  const finalCardsData = serviceData.length > 0 ? serviceData : [];
 
   const nextSlide = useCallback(() => {
     if (isAnimating) return;
@@ -136,7 +44,8 @@ const ScrollableSection = ({ cardsData = [] }) => {
   }, [isAnimating, finalCardsData.length]);
 
   const getItemPosition = (index) => {
-    const diff = (index - currentIndex + finalCardsData.length) % finalCardsData.length;
+    const diff =
+      (index - currentIndex + finalCardsData.length) % finalCardsData.length;
     const totalItems = finalCardsData.length;
     if (diff === 0)
       return {
@@ -160,7 +69,10 @@ const ScrollableSection = ({ cardsData = [] }) => {
         filter: "blur(2px)",
       };
     return {
-      transform: diff < totalItems / 2 ? "translateX(150%) scale(0.6)" : "translateX(-150%) scale(0.6)",
+      transform:
+        diff < totalItems / 2
+          ? "translateX(150%) scale(0.6)"
+          : "translateX(-150%) scale(0.6)",
       zIndex: 10,
       opacity: 0,
       filter: "blur(8px)",
@@ -186,6 +98,14 @@ const ScrollableSection = ({ cardsData = [] }) => {
       document.body.style.overflow = "auto";
     };
   }, [showDetail]);
+
+    if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex justify-center items-center text-white">
+        Loading...
+      </div>
+    );
+  }
 
   const carouselView = (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black relative overflow-hidden">
@@ -218,7 +138,7 @@ const ScrollableSection = ({ cardsData = [] }) => {
               const isActive = index === currentIndex;
               return (
                 <div
-                  key={card.id}
+                  key={card._id || card.id}
                   className="absolute w-80 h-96 transition-all duration-600 ease-out cursor-pointer"
                   style={{ ...position }}
                   onClick={() => !isAnimating && setCurrentIndex(index)}
@@ -371,7 +291,7 @@ const ScrollableSection = ({ cardsData = [] }) => {
               {currentCard.fullDescription}
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
-              {Object.entries(currentCard.specs).map(([key, value]) => (
+              {currentCard.specs && Object.entries(currentCard.specs).map(([key, value]) => (
                 <div
                   key={key}
                   className="text-center p-4 bg-white/5 rounded-xl backdrop-blur-sm border border-white/10"

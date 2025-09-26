@@ -7,6 +7,8 @@ require("colors");
 // Routes import
 const serviceRoutes = require('./src/routes/ServiceRouter');
 const physioDoctorsRouter = require('./src/routes/physioDoctorsRouter');
+const StatsRoute = require('./src/routes/StatsRoute');
+const appointmentRoutes = require('./src/routes/appointmentRoutes')
 dotenv.config();
 const connectDB = require("./src/config/db");
 
@@ -23,6 +25,8 @@ connectDB();
 // Use Routes
 app.use("/api/services", serviceRoutes);
 app.use("/api/doctors", physioDoctorsRouter);
+app.use("/api/stats", StatsRoute);
+app.use("/api/appointment", appointmentRoutes )
 
 
 // Routes
