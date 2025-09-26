@@ -162,8 +162,8 @@ const ScrollableSection = ({ cardsData = [] }) => {
                       </div>
                       {isActive && (
                         <>
-                          <p className="text-gray-300 text-sm mb-2 leading-relaxed">
-                             {truncateWords(card.description, 13)}
+                          <p className="text-gray-300 text-sm mb-3 leading-relaxed">
+                            {card.description}
                           </p>
                           <div className="flex justify-center mt-auto mb-2">
                             <button
