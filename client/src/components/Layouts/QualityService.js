@@ -31,7 +31,7 @@ const QualityService = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/stats`);
+        const res = await fetch(`https://physiotherapy-website-api.onrender.com/api/stats`);
         const data = await res.json();
         setStatsData(data);
         setCounts(data.map(() => 0));

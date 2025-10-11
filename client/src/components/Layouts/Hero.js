@@ -8,14 +8,14 @@ const PhysiotherapySection = () => {
   const [doctorData, setDoctorData] = useState(null);
   useEffect(()=>{
     // Backend se data fetch karna 
-    fetch(`${process.env.REACT_APP_API_URL}doctors`)
+    fetch(`https://physiotherapy-website-api.onrender.com/api/doctors`)
     .then(res=>res.json())
     .then((data)=>{
       if(data.length > 0) {
         setDoctorData(data[0]);
       } // Assuming we want the first doctor's data
     }).catch(err=>console.log(err));
-  })
+  },[])
 
 
   // ager abhi tak load nahi hua 

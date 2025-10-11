@@ -11,7 +11,7 @@ const ScrollableSection = ({ cardsData = [] }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/services`);
+        const res = await fetch(`https://physiotherapy-website-api.onrender.com/api/services`);
         const data = await res.json();
         setServicesData(data);
       } catch (err) {
