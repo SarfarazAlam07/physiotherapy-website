@@ -83,7 +83,7 @@ const BookAppointment = () => {
                 Book an Appointment
               </h3>
 
-              <AppointmentForm onSubmit={handleFormSubmit} />
+              <AppointmentForm onSubmit={handleFormSubmit} setIsModalOpen={setIsModalOpen} />
 
               {/* Close Button */}
               <button

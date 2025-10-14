@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const AppointmentForm = ({ onSubmit }) => {
+const AppointmentForm = ({ onSubmit , setIsModalOpen }) => {
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -66,12 +66,13 @@ const AppointmentForm = ({ onSubmit }) => {
   }
 
   try {
-    const res = await axios.post(`${process.env.REACT_APP_API_URL}/appointment`, form);
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}api/appointment`, form);
 
     if (res.data.success) {
       toast.success("✅ Appointment request sent!");
       setForm({ name: "", email: "", phone: "", message: "", address: "" });
       setErrors({ name: "", email: "", phone: "", message: "", address: "" });
+      setIsModalOpen(false);
       // yaha tum modal close ka code bhi call kar sakte ho
     } else {
       toast.error("❌ " + res.data.msg);
