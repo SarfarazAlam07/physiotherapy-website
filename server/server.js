@@ -28,12 +28,15 @@ app.use(helmet());
 
 // 2. CORS (Cross-Origin Resource Sharing)
 // Production me 'origin' ko apne frontend domain se replace karna
-app.use(
-  cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"], // Allow both development ports
-    credentials: true,
-  })
-);
+// server/server.js
+
+app.use(cors({
+  origin: [
+    "http://localhost:3000", 
+    "https://physiotherapy-website-iota.vercel.app/" // ✅ Yahan apna Vercel wala link paste karo (bina last slash ke)
+  ],
+  credentials: true
+}));
 
 // 3. Body Parser
 app.use(express.json()); // Parses incoming JSON requests
