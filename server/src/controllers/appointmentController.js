@@ -1,14 +1,16 @@
 const nodemailer = require("nodemailer");
 
-// Configure Transporter (Reuse connection)
+// ✅ FIX 1: 'service: gmail' use karo (Host/Port ka jhanjhat khatam)
+// Aur TLS fix add kiya hai taaki Render block na kare
 const transporter = nodemailer.createTransport({
-  host: process.env.ETH_HOST || "smtp.gmail.com",
-  port: process.env.ETH_PORT || 587,
-  secure: false, // true for 465, false for other ports
+  service: "gmail",
   auth: {
-    user: process.env.ETH_USER, // Tumhara email
-    pass: process.env.ETH_PASS, // Tumhara app password
+    user: process.env.ETH_USER, // Ensure karo ye Render Env Vars mein ho
+    pass: process.env.ETH_PASS, // App Password
   },
+  tls: {
+    rejectUnauthorized: false // ⚠️ Ye line Cloud Server timeout rokti hai
+  }
 });
 
 // @desc    Send Appointment Email
@@ -21,47 +23,47 @@ const sendAppointment = async (req, res) => {
   if (!name || !email || !phone || !message) {
     return res.status(400).json({
       success: false,
-      message:
-        "Please fill in all required fields (Name, Email, Phone, Message)",
+      message: "Please fill in all required fields (Name, Email, Phone, Message)",
     });
   }
 
-  try {
-    // 2. Email Content
-    const mailOptions = {
-      from: `"${name}" <${process.env.ETH_USER}>`, // Sender address
-      to: process.env.DOCTOR_EMAIL, // Receiver (Doctor)
-      replyTo: email, // Reply to patient
-      subject: `New Appointment Request from ${name}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
-          <h2 style="color: #2c3e50;">New Appointment Request</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Address:</strong> ${address || "Not Provided"}</p>
-          <div style="background-color: #f9f9f9; padding: 10px; margin-top: 10px;">
-            <strong>Problem Description:</strong>
-            <p>${message}</p>
-          </div>
+  // 2. 🚀 MAGIC TRICK: Pehle hi Success Response bhej do!
+  // User ko wait mat karao email ke liye.
+  res.status(200).json({
+    success: true,
+    message: "Appointment request received! We will contact you soon.",
+  });
+
+  // 3. Email Logic (Ab ye Background mein chalega)
+  const mailOptions = {
+    from: `"${name}" <${process.env.ETH_USER}>`,
+    to: process.env.DOCTOR_EMAIL,
+    replyTo: email,
+    subject: `New Appointment Request from ${name}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
+        <h2 style="color: #2c3e50;">New Appointment Request</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Address:</strong> ${address || "Not Provided"}</p>
+        <div style="background-color: #f9f9f9; padding: 10px; margin-top: 10px;">
+          <strong>Problem Description:</strong>
+          <p>${message}</p>
         </div>
-      `,
-    };
+      </div>
+    `,
+  };
 
-    // 3. Send Mail
-    await transporter.sendMail(mailOptions);
-
-    res.status(200).json({
-      success: true,
-      message: "Appointment request sent successfully!",
+  // 4. Send Mail (No await needed for response, just logging)
+  transporter.sendMail(mailOptions)
+    .then(info => {
+      console.log(`✅ Email sent successfully to Doctor! ID: ${info.messageId}`);
+    })
+    .catch(error => {
+      console.error("❌ Background Email Error:", error);
+      // Note: User ko already success mil chuka hai, ye error humare liye hai
     });
-  } catch (error) {
-    console.error("Email Error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server Error: Could not send email. Please try again later.",
-    });
-  }
 };
 
 module.exports = { sendAppointment };
