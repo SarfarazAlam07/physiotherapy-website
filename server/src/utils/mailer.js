@@ -1,32 +1,35 @@
-// ✅ TELEGRAM NOTIFICATION SYSTEM
-// Ye kabhi fail nahi hota kyunki ye simple internet request hai.
+// server/src/utils/mailer.js
 
-const sendAppointmentNotification = async (appointment) => {
-  const { name, email, phone, message } = appointment;
+// ✅ Humne Nodemailer hata diya hai.
+// ✅ Ye code seedha Telegram API use karega (Jo kabhi fail nahi hota).
 
-  // Render Env Variables mein ye dono daal dena baad mein
-  const botToken = process.env.TELEGRAM_BOT_TOKEN; 
+const sendAppointmentMail = async (appointment) => {
+  const { name, email, phone, address, message } = appointment;
+
+  // Render se tumhari keys uthayega
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
   if (!botToken || !chatId) {
-    console.error("❌ Telegram Token or Chat ID missing!");
+    console.error("❌ Telegram Keys missing in Render Environment!");
     return;
   }
 
-  // Message Design
+  // Message ka format
   const text = `
 🏥 *NEW APPOINTMENT REQUEST* 🏥
-----------------------------
+-----------------------------
 👤 *Name:* ${name}
 📞 *Phone:* ${phone}
 📧 *Email:* ${email}
+📍 *Address:* ${address || "N/A"}
 📝 *Problem:* ${message}
-----------------------------
-🚀 _Sent from Mirani Physio Website_
+-----------------------------
+🚀 _Sent from Website_
   `;
 
   try {
-    // Telegram API ko hit karo
+    // Telegram Server ko request bhejo
     const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
     
     const response = await fetch(url, {
@@ -35,7 +38,7 @@ const sendAppointmentNotification = async (appointment) => {
       body: JSON.stringify({
         chat_id: chatId,
         text: text,
-        parse_mode: "Markdown" // Taaki Bold/Italic style dikhe
+        parse_mode: "Markdown"
       })
     });
 
@@ -52,5 +55,4 @@ const sendAppointmentNotification = async (appointment) => {
   }
 };
 
-// Function ka naam wahi rakha hai taaki Controller mein change na karna pade
-module.exports = { sendAppointmentMail: sendAppointmentNotification };
+module.exports = { sendAppointmentMail };
