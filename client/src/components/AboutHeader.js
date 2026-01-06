@@ -2,7 +2,7 @@ import React from "react";
 
 const AboutHeaders = ({ data }) => {
   return (
-    <section className="bg-[#244a56] py-10 px-6 md:px-20 text-white relative z-10 mt-24">
+    <section className="bg-[#244a56] py-10 px-6 md:px-20 text-white relative z-10 ">
       <div className="flex flex-col md:flex-row items-center gap-6">
         {/* Left: Image */}
         <div className="w-full md:w-1/2 flex justify-center">

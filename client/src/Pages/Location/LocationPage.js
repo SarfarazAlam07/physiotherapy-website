@@ -1,15 +1,11 @@
-import React from 'react'
-import Navbar from '../../components/Layouts/Header'
-import LocationsSection from '../../components/Location'
-import Footer from '../../components/Layouts/Footer'
+import React from "react";
+import LocationsSection from "../../components/Location";
 const LocationPage = () => {
   return (
-    <div className='flex flex-col mt-12'>
-        <Navbar/>
-        <LocationsSection/>
-        <Footer/>
+    <div className="flex flex-col ">
+      <LocationsSection />
     </div>
-  )
-}
+  );
+};
 
-export default LocationPage
+export default LocationPage;

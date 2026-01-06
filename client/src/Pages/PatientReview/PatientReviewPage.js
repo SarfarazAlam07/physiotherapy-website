@@ -1,15 +1,11 @@
-import React from 'react'
-import Navbar from '../../components/Layouts/Header'
-import PatientReviews from '../../components/Layouts/PatientReviews'
-import Footer from '../../components/Layouts/Footer'
+import React from "react";
+import PatientReviews from "../../components/Sections/PatientReviews";
 const PatientReviewPage = () => {
   return (
-    <div className='flex flex-col mt-16'>
-        <Navbar/>
-        <PatientReviews/>
-        <Footer/>
+    <div className="flex flex-col ">
+      <PatientReviews />
     </div>
-  )
-}
+  );
+};
 
-export default PatientReviewPage
+export default PatientReviewPage;

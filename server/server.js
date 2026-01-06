@@ -1,42 +1,73 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const helmet = require("helmet"); // Security headers ke liye
 require("colors");
 
-
-// Routes import
-const serviceRoutes = require('./src/routes/ServiceRouter');
-const physioDoctorsRouter = require('./src/routes/physioDoctorsRouter');
-const StatsRoute = require('./src/routes/StatsRoute');
-const appointmentRoutes = require('./src/routes/appointmentRoutes')
+// Config
 dotenv.config();
 const connectDB = require("./src/config/db");
 
+// Routes Imports
+const serviceRoutes = require("./src/routes/ServiceRouter");
+const physioDoctorsRouter = require("./src/routes/physioDoctorsRouter");
+const statsRoutes = require("./src/routes/StatsRoute");
+const appointmentRoutes = require("./src/routes/appointmentRoutes");
+
+// Initialize App
 const app = express();
+const PORT = process.env.PORT || 4040;
 
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// DB Connection
+// Connect to Database
 connectDB();
 
-// Use Routes
+// --- Middleware ---
+
+// 1. Security Headers
+app.use(helmet());
+
+// 2. CORS (Cross-Origin Resource Sharing)
+// Production me 'origin' ko apne frontend domain se replace karna
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://localhost:3001"], // Allow both development ports
+    credentials: true,
+  })
+);
+
+// 3. Body Parser
+app.use(express.json()); // Parses incoming JSON requests
+
+// --- Routes ---
 app.use("/api/services", serviceRoutes);
 app.use("/api/doctors", physioDoctorsRouter);
-app.use("/api/stats", StatsRoute);
-app.use("/api/appointment", appointmentRoutes )
+app.use("/api/stats", statsRoutes);
+app.use("/api/appointment", appointmentRoutes);
 
-
-// Routes
+// Base Route
 app.get("/", (req, res) => {
-  res.send("🚀 Server running & DB connected!");
+  res.send({ message: "🚀 API is running securely!" });
 });
 
-// Start server
-const PORT = process.env.PORT || 4040;
+// --- Error Handling Middleware ---
+// Agar koi route match nahi hua (404)
+app.use((req, res, next) => {
+  const error = new Error(`Not Found - ${req.originalUrl}`);
+  res.status(404);
+  next(error);
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  res.status(statusCode);
+  res.json({
+    message: err.message,
+    stack: process.env.NODE_ENV === "production" ? null : err.stack,
+  });
+});
+
+// Start Server
 app.listen(PORT, () => {
   console.log(`✅ Server listening on port ${PORT}`.bgCyan.white);
-  console.log(`http://localhost:${PORT}`.bgWhite.black);
 });

@@ -43,14 +43,13 @@ const LocationsSection = () => {
   };
 
   return (
-    <div className="bg-gray-100 py-12 sm:py-16 px-4">
+    <div className="bg-gray-100 py-10 sm:py-16 px-4">
       <div className="text-center mb-5">
         <div className="inline-block bg-slate-700 text-white py-3 px-8 rounded-lg shadow-md">
           <h2 className="text-3xl font-bold">Our Locations</h2>
           <p className="text-md text-gray-200">We Are Available Here</p>
         </div>
       </div>
-
       <div className="hidden md:block">
         <div
           className="max-w-6xl mx-auto rounded-2xl shadow-2xl relative overflow-hidden border-4 border-white"
