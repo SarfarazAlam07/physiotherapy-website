@@ -1,56 +1,56 @@
-const nodemailer = require("nodemailer");
+// ✅ TELEGRAM NOTIFICATION SYSTEM
+// Ye kabhi fail nahi hota kyunki ye simple internet request hai.
 
-const transporter = nodemailer.createTransport({
-  host: process.env.ETH_HOST || "smtp-relay.brevo.com", // Brevo ka server
-  port: 587, // Standard Port
-  secure: false, // 587 ke liye false
-  auth: {
-    user: process.env.ETH_USER, // Brevo Email
-    pass: process.env.ETH_PASS, // Brevo SMTP Key
-  },
-  tls: {
-    rejectUnauthorized: false, // Connection smooth rakhne ke liye
-  },
-});
+const sendAppointmentNotification = async (appointment) => {
+  const { name, email, phone, message } = appointment;
 
-// @desc    Send Appointment Email
-// @route   POST /api/appointment
-// @access  Public
-const sendAppointment = async (req, res) => {
-  const { name, email, phone, address, message } = req.body;
+  // Render Env Variables mein ye dono daal dena baad mein
+  const botToken = process.env.TELEGRAM_BOT_TOKEN; 
+  const chatId = process.env.TELEGRAM_CHAT_ID;
 
-  if (!name || !email || !phone || !message) {
-    return res.status(400).json({
-      success: false,
-      message: "Please fill in all required fields",
-    });
+  if (!botToken || !chatId) {
+    console.error("❌ Telegram Token or Chat ID missing!");
+    return;
   }
 
-  // 🚀 User ko turant Success bhejo
-  res.status(200).json({
-    success: true,
-    message: "Appointment request received! We will contact you soon.",
-  });
+  // Message Design
+  const text = `
+🏥 *NEW APPOINTMENT REQUEST* 🏥
+----------------------------
+👤 *Name:* ${name}
+📞 *Phone:* ${phone}
+📧 *Email:* ${email}
+📝 *Problem:* ${message}
+----------------------------
+🚀 _Sent from Mirani Physio Website_
+  `;
 
-  // Background mein Email bhejo
-  const mailOptions = {
-    from: `"${name}" <${process.env.ETH_USER}>`, // Sender: Brevo Email
-    to: process.env.DOCTOR_EMAIL, // Receiver: Doctor
-    replyTo: email, // Reply karne par Patient ka email aaye
-    subject: `New Appointment: ${name}`,
-    html: `
-      <h3>New Appointment Request</h3>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Phone:</strong> ${phone}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Message:</strong><br/>${message}</p>
-    `,
-  };
+  try {
+    // Telegram API ko hit karo
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: text,
+        parse_mode: "Markdown" // Taaki Bold/Italic style dikhe
+      })
+    });
 
-  transporter
-    .sendMail(mailOptions)
-    .then((info) => console.log(`✅ Email sent via Brevo: ${info.messageId}`))
-    .catch((err) => console.error("❌ Brevo Error:", err));
+    const data = await response.json();
+    
+    if (data.ok) {
+      console.log("✅ Telegram Notification Sent!");
+    } else {
+      console.error("❌ Telegram Error:", data);
+    }
+
+  } catch (error) {
+    console.error("❌ Network Error:", error);
+  }
 };
 
-module.exports = { sendAppointment };
+// Function ka naam wahi rakha hai taaki Controller mein change na karna pade
+module.exports = { sendAppointmentMail: sendAppointmentNotification };
