@@ -31,10 +31,7 @@ app.use(helmet());
 // server/server.js
 
 app.use(cors({
-  origin: [
-    "http://localhost:3000", 
-    "https://physiotherapy-website-iota.vercel.app/" // ✅ Yahan apna Vercel wala link paste karo (bina last slash ke)
-  ],
+  origin: "*",  // <-- Star (*) ka matlab sab allowed
   credentials: true
 }));
 
