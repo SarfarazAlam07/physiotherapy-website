@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaFacebookF, FaLinkedinIn, FaInstagram, FaYoutube } from 'react-icons/fa';
 
 const Footer = () => {
   return (
@@ -15,7 +15,7 @@ const Footer = () => {
           </p>
           <div className="flex gap-4 pt-2">
             {[FaFacebookF, FaInstagram, FaYoutube, FaLinkedinIn].map((Icon, idx) => (
-              <a key={idx} href="#" className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 hover:text-white transition-all">
+              <a key={idx} href="#!" className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-green-500 hover:text-white transition-all">
                 <Icon />
               </a>
             ))}

@@ -1,6 +1,4 @@
 import React from "react";
-import Navbar from "../../components/Sections/Header";
-import Footer from "../../components/Sections/Footer";
 import OrthopedicSection from "../../components/Orthopedic";
 import DifferenceSection from "../../components/DifferenceSection";
 export const OrthopedicPage = () => {
