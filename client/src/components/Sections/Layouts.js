@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async"; // ✅ Import Helmet
-import Navbar from "./Header";
 import PhysiotherapySection from "./Hero";
 import ScrollableSection from "./scroll";
 import Specializations from "./Specializations";
